@@ -1,4 +1,4 @@
-# check if command check
+# check if command exists
 # $1: command
 # example:
 # if ! check_command_exists "ls"; then
