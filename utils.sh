@@ -93,18 +93,25 @@ function confirm {
 	fi
 }
 
+# stop and wait for any key
 function press_any_key {
 	read -p "Press any key to continue"
 }
 
+# echo to stderr
+# $@: echo args
 function echo_stderr {
 	echo "$@" >&2
 }
 
+# change color to red foreground
+# $@: text
 function red_fg {
 	echo -e "\033[31m$@\033[0m"
 }
 
+# change color to red background and black foreground
+# $@: text
 function red_bg_black_fg {
 	echo -e "\033[41;30m$@\033[0m"
 }
