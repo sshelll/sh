@@ -1,3 +1,17 @@
+# check if command check
+# $1: command
+# example:
+# if ! check_command_exists "ls"; then
+# 	echo "ls command not found"
+# fi
+function check_command_exists {
+	local cmd=$1
+	if ! command -v "$cmd" >/dev/null 2>&1; then
+		return 1
+	fi
+	return 0
+}
+
 # select with ui
 # $1: title
 # $2..n: items
