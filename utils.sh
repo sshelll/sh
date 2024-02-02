@@ -129,3 +129,36 @@ function red_fg {
 function red_bg_black_fg {
 	echo -e "\033[41;30m$@\033[0m"
 }
+
+# cut prefix
+# $1: str
+# $2: prefix
+# WARN: if $str has blank, use "" to wrap it like: cut_prefix "$str" "$prefix"
+function cut_prefix {
+	local str=$1
+	local prefix=$2
+	echo ${str#$prefix}
+}
+
+# cut suffix
+# $1: str
+# $2: suffix
+# WARN: if $str has blank, use "" to wrap it like: cut_prefix "$str" "$prefix"
+function cut_suffix {
+	local str=$1
+	local suffix=$2
+	echo ${str%$suffix}
+}
+
+# format json for http
+# $1: text
+function fmt_json_for_http {
+	if [ -z "$1" ]; then
+		echo "null"
+	elif check_command_exists 'jq'; then
+		echo $(jq -n --arg msg "$1" '$msg')
+	else
+		echo_stderr "[fmt_json_for_http] jq not found, use raw text"
+		echo "$1"
+	fi
+}
