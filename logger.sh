@@ -35,18 +35,19 @@ function log {
 
 	local level=$1
 	local message=$2
+	local date=$(date +"%Y-%m-%d %H:%M:%S:%3N %Z%z")
 
 	if [ $level -eq $TRACE ]; then
-		echo -e "\033[34mTRACE: $message\033[0m"
+		echo -e "$date \033[34mTRACE: $message\033[0m"
 	elif [ $level -eq $DEBUG ]; then
-		echo -e "\033[32mDEBUG: $message\033[0m"
+		echo -e "$date \033[32mDEBUG: $message\033[0m"
 	elif [ $level -eq $INFO ]; then
-		echo -e "\033[36mINFO: $message\033[0m"
+		echo -e "$date \033[36mINFO: $message\033[0m"
 	elif [ $level -eq $WARN ]; then
-		echo -e "\033[33mWARN: $message\033[0m"
+		echo -e "$date \033[33mWARN: $message\033[0m"
 	elif [ $level -eq $ERROR ]; then
-		echo -e "\033[31mERROR: $message\033[0m"
+		echo -e "$date \033[31mERROR: $message\033[0m"
 	else
-		echo -e "\033[31mUNKNOWN: $message\033[0m"
+		echo -e "$date \033[31mUNKNOWN: $message\033[0m"
 	fi
 }
