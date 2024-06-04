@@ -25,6 +25,7 @@ main() {
 	fi
 
 	# gen otp and copy to clipboard
+ 	# use `brew install oath-toolkit` on macOS to install this tool
 	local otp=$(oathtool --totp --base32 $secret_key)
 	echo -e "\033[33motp: $otp, copied to clipboard...\033[0m" >&2
 	echo -n $otp | pbcopy
