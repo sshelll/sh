@@ -40,6 +40,21 @@ function select_ui {
 	echo "${args[$input]}"
 }
 
+function select_ui_termenu {
+	if [ $# -lt 2 ]; then
+		echo_stderr "Usage: select_ui <title> <item1> <item2> ..." >&2
+		exit 1
+	fi
+
+	local title=$1
+	shift
+	local args=("$@")
+
+	local items=$(printf "%s\n" "${args[@]}")
+
+	echo "$items" | termenu --name "$title" --color always
+}
+
 # unwrap or default, if arg is empty, use default
 # $1: arg
 # $2: default
