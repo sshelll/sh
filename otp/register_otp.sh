@@ -16,6 +16,8 @@ main() {
 	# enter your file name, just name without suffix or path!
 	local enc_file=$(must_read "Target enc file name(name only, no suffix or path)")
 
+	mkdir -p ~/.otp_secrets
+
 	# WARN: choose your own path
 	enc_file=~/.otp_secrets/$enc_file.otp.enc
 	if [ -f $enc_file ]; then
@@ -34,7 +36,7 @@ main() {
 
 	# remove tmp file for safe
 	rm $tmp_file
-	echo -e "\033[32m$enc_file created\033[0m"
+	echo -e "\033[32m~/.otp_secrets/$enc_file created\033[0m"
 }
 
 main "$@"

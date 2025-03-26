@@ -5,7 +5,7 @@ main() {
 	# termenu is a rust tool built by me, you can find it in my github repo
 	# WARN: choose your own path and suffix
 	# local selection=$(ls ~/.otp_secrets | grep -E '.enc$' | fzf --height 30% --layout reverse --border)
-	local selection=$(ls ~/.otp_secrets | grep -E '.enc$' | termenu)
+	local selection=$(ls ~/.otp_secrets | grep -E '.enc$' | termenu --color=always --name=otps_files)
 	if [ -z "$selection" ]; then
 		echo -e "\033[36mno target file selected\033[0m" >&2
 		return 1
