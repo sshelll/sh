@@ -14,6 +14,9 @@ main() {
 	register)
 		register_otp
 		;;
+	delete)
+		delete_otp
+		;;
 	*)
 		echo "unknown command: $subcommand"
 		;;

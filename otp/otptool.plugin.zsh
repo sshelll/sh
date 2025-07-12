@@ -5,6 +5,7 @@ _otptool_completions() {
   commands=(
     "gen:Gen otp code from registered otp keys"
     "register:Register a new otp key"
+    "delete:Delete an existing otp key"
   )
 
   local curcontext="$curcontext" state line

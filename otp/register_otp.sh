@@ -16,10 +16,11 @@ main() {
 	# enter your file name, just name without suffix or path!
 	local enc_file=$(must_read "Target enc file name(name only, no suffix or path)")
 
-	mkdir -p ~/.otp_secrets
+	local otp_home=${OTP_TOOL_HOME:-$HOME/.otp_secrets}
+	mkdir -p $otp_home
 
 	# WARN: choose your own path
-	enc_file=~/.otp_secrets/$enc_file.otp.enc
+	enc_file=$otp_home/$enc_file.otp.enc
 	if [ -f $enc_file ]; then
 		echo -e "\033[31mfile exist: $enc_file\033[0m" >&2
 		exit 1
@@ -30,13 +31,13 @@ main() {
 
 	# generate enc file
 	# WARN: choose your own path
-	local tmp_file=~/.otp_secrets/$(date +%s).enc.tmp
+	local tmp_file=$otp_home/$(date +%s).enc.tmp
 	echo -n $raw_key >$tmp_file
 	openssl enc -aes-256-cbc -salt -pbkdf2 -in $tmp_file -out $enc_file
 
 	# remove tmp file for safe
 	rm $tmp_file
-	echo -e "\033[32m~/.otp_secrets/$enc_file created\033[0m"
+	echo -e "\033[32m$enc_file created\033[0m"
 }
 
 main "$@"
