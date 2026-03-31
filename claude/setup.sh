@@ -1,23 +1,40 @@
 #!/usr/bin/env bash
 #
-# Setup local project Claude Code settings (.claude/settings.local.json).
+# Setup Claude Code settings (.claude/settings.local.json or global settings.json).
 # This script merges the desired settings into the existing file
 # without modifying other settings that are already present.
 #
 # Usage:
 #   cd <project-root>
-#   bash /path/to/sh/claude/init.sh
+#   bash /path/to/sh/claude/init.sh       # local project settings
+#   bash /path/to/sh/claude/init.sh -g    # global settings
 #
 
 set -euo pipefail
 
-# for running everywhere once this dir is in $PATH
 source $HOME/sh/utils.sh
 source $HOME/sh/logger.sh
 
-# The settings file lives in the current working directory's .claude/ directory
-SETTINGS_DIR=".claude"
-SETTINGS_FILE="${SETTINGS_DIR}/settings.local.json"
+# Parse options
+GLOBAL_MODE=false
+while getopts "g" opt; do
+    case $opt in
+    g) GLOBAL_MODE=true ;;
+    *)
+        echo "Usage: $0 [-g]" >&2
+        exit 1
+        ;;
+    esac
+done
+
+# Set settings file path based on mode
+if [[ "$GLOBAL_MODE" == true ]]; then
+    SETTINGS_DIR="$HOME/.claude"
+    SETTINGS_FILE="${SETTINGS_DIR}/settings.json"
+else
+    SETTINGS_DIR=".claude"
+    SETTINGS_FILE="${SETTINGS_DIR}/settings.local.json"
+fi
 
 # Ensure jq is available
 if ! command -v jq &>/dev/null; then
@@ -49,7 +66,7 @@ read -r -d '' NEW_SETTINGS <<'EOF' || true
 }
 EOF
 
-# Create the .claude directory if it doesn't exist
+# Create the directory if it doesn't exist
 if [[ ! -d "${SETTINGS_DIR}" ]]; then
     mkdir -p "${SETTINGS_DIR}"
     log_info "Created ${SETTINGS_DIR}/ directory"
@@ -70,4 +87,4 @@ fi
 # Write the merged settings back (pretty-printed)
 echo "${MERGED}" | jq '.' >"${SETTINGS_FILE}"
 
-log_success "Local project Claude settings have been configured in ${SETTINGS_FILE}"
+log_success "Claude settings have been configured in ${SETTINGS_FILE}"
