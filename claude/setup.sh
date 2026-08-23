@@ -63,6 +63,7 @@ read -r -d '' NEW_SETTINGS <<'EOF' || true
     ]
   },
   "model": "opus[1m]",
+  "effortLevel": "medium",
   "statusLine": {
     "type": "command",
     "command": "bash $HOME/.claude/statusline-command.sh"
