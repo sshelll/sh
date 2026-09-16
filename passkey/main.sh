@@ -12,18 +12,30 @@ main() {
         read -p "service: " SERVICE
         read -p "account: " ACCOUNT
         read -s -p "secret: " SECRET
-        passkey store "$SERVICE" "$ACCOUNT" "$SECRET"
+        if [ -z "$PASSKEY_HOME" ]; then
+            passkey store "$SERVICE" "$ACCOUNT" "$SECRET"
+        else
+            passkey --keychain "$PASSKEY_HOME" store "$SERVICE" "$ACCOUNT" "$SECRET"
+        fi
         unset SECRET
         ;;
     fetch)
         read -p "service: " SERVICE
         read -p "account: " ACCOUNT
-        passkey fetch "$SERVICE" "$ACCOUNT"
+        if [ -z "$PASSKEY_HOME" ]; then
+            passkey fetch "$SERVICE" "$ACCOUNT"
+        else
+            passkey --keychain "$PASSKEY_HOME" fetch "$SERVICE" "$ACCOUNT"
+        fi
         ;;
     delete)
         read -p "service: " SERVICE
         read -p "account: " ACCOUNT
-        passkey delete "$SERVICE" "$ACCOUNT"
+        if [ -z "$PASSKEY_HOME" ]; then
+            passkey delete "$SERVICE" "$ACCOUNT"
+        else
+            passkey --keychain "$PASSKEY_HOME" delete "$SERVICE" "$ACCOUNT"
+        fi
         ;;
     *)
         echo "unknown command: $subcommand"
